@@ -53,7 +53,7 @@ SanchobbdoGenerator.prototype.askFor = function askFor() {
 SanchobbdoGenerator.prototype.app = function app() {
     this.mkdir('app');
     this.mkdir('app/assets');
-    this.directory('css','app/assets/css');
+    this.directory('css', 'app/assets/css');
     this.mkdir('app/assets/js');
     this.mkdir('app/assets/i');
     this.mkdir('app/partials');
