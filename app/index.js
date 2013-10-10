@@ -85,12 +85,15 @@ SanchobbdoGenerator.prototype.templateFiles = function templateFiles() {
     this.template('humans.txt', 'app/humans.txt');
 };
 
+SanchobbdoGenerator.prototype.partialsDirectory = function partialsDirectory() {
+    this.mkdir('app/partials');
+    this.copy('partial1.html', 'app/partials/partial1.html');
+    this.copy('partial2.html', 'app/partials/partial2.html');
+};
+
 SanchobbdoGenerator.prototype.app = function app() {
     this.mkdir('app/assets');
     this.mkdir('app/assets/js');
     this.mkdir('app/assets/i');
-    this.mkdir('app/partials');
-    this.copy('partial1.html', 'app/partials/partial1.html');
-    this.copy('partial2.html', 'app/partials/partial2.html');
     this.template('index.html', 'app/index.html');
 };
