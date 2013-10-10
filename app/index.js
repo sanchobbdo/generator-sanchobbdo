@@ -4,7 +4,7 @@ var path = require('path');
 var yeoman = require('yeoman-generator');
 
 
-var SanchobbdoGenerator = module.exports = function SanchobbdoGenerator(args, options, config) {
+var SanchobbdoGenerator = module.exports = function SanchobbdoGenerator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
 
     this.on('end', function () {
@@ -22,7 +22,7 @@ SanchobbdoGenerator.prototype.askFor = function askFor() {
     // have Yeoman greet the user.
     console.log(this.yeoman);
     console.log('This is Sancho BBDO Front-end Project Generator');
-    // console.log('Out of the box this include SASS support for Bourbon/Neat and jQuery.');
+    console.log('Out of the box this include SASS support for Bourbon/Neat and jQuery.');
 
     var prompts = [{
         name: 'siteName',
@@ -50,28 +50,47 @@ SanchobbdoGenerator.prototype.askFor = function askFor() {
     }.bind(this));
 };
 
-SanchobbdoGenerator.prototype.app = function app() {
-    this.mkdir('app');
-    this.mkdir('app/assets');
+SanchobbdoGenerator.prototype.gruntfile = function gruntfile() {
+    this.template('Gruntfile.js');
+};
+
+SanchobbdoGenerator.prototype.packageJSON = function packageJSON() {
+    this.template('_package.json', 'package.json');
+};
+
+SanchobbdoGenerator.prototype.bower = function bower() {
+    this.copy('bowerrc', '.bowerrc');
+    this.copy('_bower.json', 'bower.json');
+};
+
+SanchobbdoGenerator.prototype.jshint = function jshint() {
+    this.copy('jshintrc', '.jshintrc');
+};
+
+SanchobbdoGenerator.prototype.editorConfig = function editorConfig() {
+    this.copy('editorconfig', '.editorconfig');
+};
+
+SanchobbdoGenerator.prototype.stylesheetsDirectory = function stylesheetsDirectory() {
     this.directory('css', 'app/assets/css');
+};
+
+SanchobbdoGenerator.prototype.scriptsDirectory = function scriptsDirectory() {
+    this.directory('js', 'app/assets/js');
+};
+
+SanchobbdoGenerator.prototype.templateFiles = function templateFiles() {
+    this.copy('apple-touch-icon-precomposed.png', 'app/apple-touch-icon-precomposed.png');
+    this.copy('favicon.ico', 'app/favicon.ico');
+    this.template('humans.txt', 'app/humans.txt');
+};
+
+SanchobbdoGenerator.prototype.app = function app() {
+    this.mkdir('app/assets');
     this.mkdir('app/assets/js');
     this.mkdir('app/assets/i');
     this.mkdir('app/partials');
     this.copy('partial1.html', 'app/partials/partial1.html');
     this.copy('partial2.html', 'app/partials/partial2.html');
-
-    this.copy('apple-touch-icon-precomposed.png', 'apple-touch-icon-precomposed.png');
-    this.copy('favicon.ico', 'favicon.ico');
-
-    this.template('humans.txt', 'humans.txt');
-
-    this.template('index.html', 'index.html');
-
-    this.copy('_package.json', 'package.json');
-    this.copy('_bower.json', 'bower.json');
-};
-
-SanchobbdoGenerator.prototype.projectfiles = function projectfiles() {
-    this.copy('editorconfig', '.editorconfig');
-    this.copy('jshintrc', '.jshintrc');
+    this.template('index.html', 'app/index.html');
 };
