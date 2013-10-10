@@ -58,6 +58,10 @@ SanchobbdoGenerator.prototype.packageJSON = function packageJSON() {
     this.template('_package.json', 'package.json');
 };
 
+SanchobbdoGenerator.prototype.git = function git() {
+    this.copy('gitignore', '.gitignore');
+};
+
 SanchobbdoGenerator.prototype.bower = function bower() {
     this.copy('bowerrc', '.bowerrc');
     this.copy('_bower.json', 'bower.json');
