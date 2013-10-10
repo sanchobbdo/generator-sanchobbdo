@@ -1,0 +1,9 @@
+// Basehold.it Visor for Vertical Rhythm
+@mixin basehold ($color: 'black') {
+
+	@if $color == 'black' {
+		background: url(http://basehold.it/i/24);
+	} @else {
+		background: url(http://basehold.it/i/24/ffffff);
+	}
+}

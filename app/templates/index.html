@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es-419" ng-app="myApp">
+<head>
+<title><%= _.capitalize(siteName) %></title>
+<!-- Meta Tags -->
+<meta charset="utf-8">
+<meta name="author" content="Sancho BBDO">
+<meta name="description" content="TODO(copy): Write site description here">
+<meta name="robots" content="all"><% if (siteResponsive) { %>
+<meta name="viewport" content="width=device-width, initial-scale=1"><% } // siteResponsive %><% if (openGraph) { %>
+<!-- Open Graph - http://ogp.me/ -->
+<meta property="og:title" content="<%= _.capitalize(siteName) %>" />
+<meta property="og:description" content="TODO(copy): Write site description here" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="<%= _.capitalize(siteName) %>"/>
+<meta property="og:url" content="TODO(copy): Write site URL here" />
+<meta property="og:image" content="TODO(copy): Write 200x200 image URL here" /><% } // openGraph %>
+<!-- Favicon and Apple Touch Icon -->
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
+<!-- Humanstxt.org -->
+<link rel="author" type="text/plain" href="humans.txt">
+<!-- Prefetch DNS for external assets -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<!-- Prefetch web fonts -->
+<link rel="prefetch" href="TODO(copy): Write local fonts URL here">
+<!-- CSS -->
+<!--[if gte IE 9]><!-->
+<link rel='stylesheet' href='assets/css/style.css'>
+<!--<![endif]-->
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<link rel="stylesheet" href="assets/css/app-ie.css" />
+<![endif]-->
+
+</head>
+<body>
+
+<header class="l-header" role="banner">
+    <h1><%= _.capitalize(siteName) %></h1>
+    <nav class="nav l-container" role="navigation">
+		<!-- TODO(dev): Write your navigation links here -->
+		<a href="#/view1">view1</a>
+        <a href="#/view2">view2</a>
+	</nav>
+</header>
+
+
+<section role="main">
+	<div class="l-container" ng-view></div>
+	<div>Angular seed app: v<span app-version></span></div>
+</section>
+
+<footer class="l-footer" role="contentinfo">
+	<div class="l-container">
+		<!-- TODO(dev): Write your footer content here -->
+	</div>
+</footer>
+
+<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+<!-- Scripts concatenated and minified -->
+<script src='assets/js/plugins.js'></script>
+<script src='assets/js/vendor/angular/angular.js'></script>
+<script src='assets/js/app.js'></script>
+<script src='assets/js/services.js'></script>
+<script src='assets/js/controllers.js'></script>
+<script src='assets/js/filters.js'></script>
+<script src='assets/js/directives.js'></script>
+
+<!-- HTML Inspector - Delete on production - https://github.com/philipwalton/html-inspector -->
+<script src="https://rawgithub.com/philipwalton/html-inspector/master/dist/html-inspector.js"></script>
+<script> HTMLInspector.inspect() </script>
+
+<!-- START ANALYTICS -->
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+<script>
+    (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+    function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+    e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+    e.src='//www.google-analytics.com/analytics.js';
+    r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+<!-- END ANALYTICS -->
+</body>
+</html>
