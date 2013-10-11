@@ -1,4 +1,4 @@
-/* <%= _.capitalize(siteName) %> TEAM */
+/* TEAM */
 
 Name: 					Sancho BBDO
 Site:					http://www.sanchobbdo.com.co/
@@ -7,14 +7,20 @@ Location:				Bogotá, Colombia
 
 /* SITE */
 
+Title:                  <%= _.capitalize(siteName) %>
+
 Standards:
 
 HTML5
 CSS3
 
-Components:
-
-HTML5 Boilerplate		http://html5boilerplate.com/
-HTML5 Bones				http://html5bones.com/
-jQuery: 				http://jquery.com/
+Components and Tools:
+<% if (angular) { %>
+AngularJS               http://angular.org/<% } // angular %>
+Bourbon                 http://bourbon.io/
+Bourbon Neat            http://neat.bourbon.io/
+HTML5 Boilerplate       http://html5boilerplate.com/
+HTML5 Bones             http://html5bones.com/<% if (jquery) { %>
+jQuery: 				http://jquery.com/<% } // jquery %>
 Normalize:				http://necolas.github.io/normalize.css/
+Yeoman:                 http://yeoman.io/

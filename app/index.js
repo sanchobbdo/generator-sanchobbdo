@@ -3,7 +3,6 @@ var util = require('util');
 var path = require('path');
 var yeoman = require('yeoman-generator');
 
-
 var SanchobbdoGenerator = module.exports = function SanchobbdoGenerator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
 
@@ -22,29 +21,94 @@ SanchobbdoGenerator.prototype.askFor = function askFor() {
     // have Yeoman greet the user.
     console.log(this.yeoman);
     console.log('This is Sancho BBDO Front-end Project Generator');
-    console.log('Out of the box this include SASS support for Bourbon/Neat and jQuery.');
+    console.log('Out of the box this include SASS support for Bourbon/Neat.');
 
     var prompts = [{
+        type: 'input',
         name: 'siteName',
         message: 'What do you want to call the site?'
     },
     {
-        type: 'confirm',
-        name: 'siteResponsive',
-        message: 'Would you like to include HTML tags for a responsive site?',
-        default: true
+        type: 'list',
+        name: 'projectKind',
+        message: 'What kind of project do yo want to create?',
+        choices: [{
+            name: 'Client-side Web Application (Website)',
+            value: 'websiteProject',
+            checked: true
+        }, {
+            name: 'Mobile Webapp (Home Screen App)',
+            value: 'webappProject',
+            checked: false
+        }]
     },
     {
-        type: 'confirm',
-        name: 'openGraph',
-        message: 'Would you like to include HTML tags for Open Graph?',
-        default: true
+        type: 'checkbox',
+        name: 'addons',
+        message: 'What of the following would you like to add to the project?',
+        choices: [{
+            name: 'HTML Tags for responsive websites',
+            value: 'responsiveTags',
+            checked: true
+        }, {
+            name: 'Open Graph Tags',
+            value: 'openGraphTags',
+            checked: true
+        }, {
+            name: 'Google Analytics',
+            value: 'gAnalytics',
+            checked: true
+        }, {
+            name: 'Google Fonts',
+            value: 'gFonts',
+            checked: false
+        }, {
+            name: 'Facebook JS SDK',
+            value: 'fbSdk',
+            checked: false
+        }, {
+            name: 'HTML Inspector (for development)',
+            value: 'htmlInspect',
+            checked: false
+        }]
+    },
+    {
+        type: 'list',
+        name: 'frameworks',
+        message: 'Which Framework would you want to use?',
+        choices: [{
+            name: 'AngularJS',
+            value: 'angular',
+            checked: true
+        }, {
+            name: 'jQuery',
+            value: 'jquery',
+            checked: false
+        }]
     }];
 
     this.prompt(prompts, function (props) {
+        var
+        projectKind = props.projectKind,
+        addons = props.addons,
+        frameworks = props.frameworks;
+
+        function hasFeature(answers, feat) { return answers.indexOf(feat) !== -1; }
+
         this.siteName = props.siteName;
-        this.siteResponsive = props.siteResponsive;
-        this.openGraph = props.openGraph;
+
+        this.websiteProject = hasFeature(projectKind, 'websiteProject');
+        this.webappProject = hasFeature(projectKind, 'webappProject');
+
+        this.responsiveTags = hasFeature(addons, 'responsiveTags');
+        this.openGraphTags = hasFeature(addons, 'openGraphTags');
+        this.gAnalytics = hasFeature(addons, 'gAnalytics');
+        this.gFonts = hasFeature(addons, 'gFonts');
+        this.fbSdk = hasFeature(addons, 'fbSdk');
+        this.htmlInspect = hasFeature(addons, 'htmlInspect');
+
+        this.angular = hasFeature(frameworks, 'angular');
+        this.jquery = hasFeature(frameworks, 'jquery');
 
         cb();
     }.bind(this));
@@ -79,8 +143,19 @@ SanchobbdoGenerator.prototype.stylesheetsDirectory = function stylesheetsDirecto
     this.directory('css', 'app/assets/css');
 };
 
+SanchobbdoGenerator.prototype.webappSplash = function webappSplash() {
+    if (this.webappProject) {
+        this.directory('splash', 'app/assets/i/splash');
+    }
+};
+
 SanchobbdoGenerator.prototype.scriptsDirectory = function scriptsDirectory() {
-    this.directory('js', 'app/assets/js');
+    if (this.angular) {
+        this.directory('js', 'app/assets/js');
+    } else if (this.jquery) {
+        this.copy('_simple.js', 'app/assets/js/app.js');
+        this.copy('plugins.js', 'app/assets/js/plugins.js');
+    }
 };
 
 SanchobbdoGenerator.prototype.templateFiles = function templateFiles() {
@@ -90,9 +165,11 @@ SanchobbdoGenerator.prototype.templateFiles = function templateFiles() {
 };
 
 SanchobbdoGenerator.prototype.partialsDirectory = function partialsDirectory() {
-    this.mkdir('app/partials');
-    this.copy('partial1.html', 'app/partials/partial1.html');
-    this.copy('partial2.html', 'app/partials/partial2.html');
+    if (this.angular) {
+        this.mkdir('app/partials');
+        this.copy('partial1.html', 'app/partials/partial1.html');
+        this.copy('partial2.html', 'app/partials/partial2.html');
+    }
 };
 
 SanchobbdoGenerator.prototype.app = function app() {

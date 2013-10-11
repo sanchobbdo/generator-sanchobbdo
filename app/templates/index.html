@@ -1,28 +1,41 @@
 <!DOCTYPE html>
-<html lang="es-419" ng-app="myApp">
+<html lang="es-419"<% if (angular) { %> data-ng-app="myApp"<% } // angular %>>
 <head>
 <title><%= _.capitalize(siteName) %></title>
 <!-- Meta Tags -->
 <meta charset="utf-8">
 <meta name="author" content="Sancho BBDO">
 <meta name="description" content="TODO(copy): Write site description here">
-<meta name="robots" content="all"><% if (siteResponsive) { %>
-<meta name="viewport" content="width=device-width, initial-scale=1"><% } // siteResponsive %><% if (openGraph) { %>
+<meta name="robots" content="all"><% if (responsiveTags && websiteProject) { %>
+<meta name="viewport" content="width=device-width, initial-scale=1"><% } // responsiveTags %><% if (webappProject) { %>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!-- iOS Webapp -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="translucent black">
+<meta name="apple-mobile-web-app-title" content="<%= _.capitalize(siteName) %>" />
+<!-- STARTUP IMAGES -->
+<!-- startup image for web apps - iPad - landscape (748x1024)
+     Note: iPad landscape startup image has to be exactly 748x1024 pixels (portrait, with contents rotated).-->
+<link rel="apple-touch-startup-image" href="assets/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)" />
+<!-- startup image for web apps - iPad - portrait (768x1004) -->
+<link rel="apple-touch-startup-image" href="assets/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)" />
+<!-- startup image for web apps (320x460) -->
+<link rel="apple-touch-startup-image" href="assets/splash/iphone.png" media="screen and (max-device-width: 320px)" /><% } // webappProject %><% if (openGraphTags) { %>
 <!-- Open Graph - http://ogp.me/ -->
 <meta property="og:title" content="<%= _.capitalize(siteName) %>" />
 <meta property="og:description" content="TODO(copy): Write site description here" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="<%= _.capitalize(siteName) %>"/>
 <meta property="og:url" content="TODO(copy): Write site URL here" />
-<meta property="og:image" content="TODO(copy): Write 200x200 image URL here" /><% } // openGraph %>
+<meta property="og:image" content="TODO(copy): Write 200x200 image URL here" /><% } // openGraphTags %>
 <!-- Favicon and Apple Touch Icon -->
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
 <!-- Humanstxt.org -->
 <link rel="author" type="text/plain" href="humans.txt">
-<!-- Prefetch DNS for external assets -->
-<link rel="dns-prefetch" href="//fonts.googleapis.com">
-<link rel="dns-prefetch" href="//www.google-analytics.com">
+<!-- Prefetch DNS for external assets --><% if (gFonts) { %>
+<link rel="dns-prefetch" href="//fonts.googleapis.com"><% } // gFonts %><% if (gAnalytics) { %>
+<link rel="dns-prefetch" href="//www.google-analytics.com"><% } // gAnalytics %>
 <!-- Prefetch web fonts -->
 <link rel="prefetch" href="TODO(copy): Write local fonts URL here">
 <!-- CSS -->
@@ -36,7 +49,30 @@
 <![endif]-->
 
 </head>
-<body>
+<body><% if (fbSdk) { %>
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    // init the FB JS SDK
+    FB.init({
+      appId      : 'YOUR_APP_ID',                        // App ID from the app dashboard
+      channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel file for x-domain comms
+      status     : true,                                 // Check Facebook Login status
+      xfbml      : true                                  // Look for social plugins on the page
+    });
+
+    // Additional initialization code such as adding Event Listeners goes here
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_ES/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script><% } // fbSdk %><% if (angular) { %>
 
 <header class="l-header" role="banner">
     <h1><%= _.capitalize(siteName) %></h1>
@@ -47,34 +83,48 @@
 	</nav>
 </header>
 
+<section role="main">
+	<div class="l-container" data-ng-view></div>
+	<div>Angular seed app: v<span app-version></span></div>
+</section><% } else { %>
+
+<header class="l-header" role="banner">
+    <h1><%= _.capitalize(siteName) %></h1>
+    <nav class="nav l-container" role="navigation">
+        <!-- TODO(dev): Write your navigation links here -->
+    </nav>
+</header>
 
 <section role="main">
-	<div class="l-container" ng-view></div>
-	<div>Angular seed app: v<span app-version></span></div>
-</section>
+    <div class="l-container">
+        <!-- TODO(dev): Write your content here -->
+    </div>
+</section><% } // angular %>
 
 <footer class="l-footer" role="contentinfo">
 	<div class="l-container">
 		<!-- TODO(dev): Write your footer content here -->
 	</div>
 </footer>
-
+<% if (jquery) { %>
 <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="bower_components/jquery/jquery.min.js"><\/script>')</script>
 <!-- Scripts concatenated and minified -->
 <script src="assets/js/plugins.js"></script>
+<script src="assets/js/app.js"></script><% } // jquery %><% if (angular) { %>
+<!-- Scripts concatenated and minified -->
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="assets/js/app.js"></script>
 <script src="assets/js/services.js"></script>
 <script src="assets/js/controllers.js"></script>
 <script src="assets/js/filters.js"></script>
-<script src="assets/js/directives.js"></script>
-
+<script src="assets/js/directives.js"></script><% } // angular %>
+<% if (htmlInspect) { %>
 <!-- HTML Inspector - Delete on production - https://github.com/philipwalton/html-inspector -->
 <script src="https://rawgithub.com/philipwalton/html-inspector/master/dist/html-inspector.js"></script>
-<script> HTMLInspector.inspect() </script>
-
+<script> HTMLInspector.inspect() </script><% } // htmlInspect %>
+<% if (gAnalytics) { %>
 <!-- START ANALYTICS -->
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>
@@ -85,6 +135,6 @@
     r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
     ga('create','UA-XXXXX-X');ga('send','pageview');
 </script>
-<!-- END ANALYTICS -->
+<!-- END ANALYTICS --><% } // gAnalytics %>
 </body>
 </html>
